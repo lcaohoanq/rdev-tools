@@ -1,5 +1,12 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  ChevronUp,
+  Menu,
+  X,
+} from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "~/shared/components/ui/button";
 import { cn } from "~/shared/utils/utils";
@@ -10,10 +17,36 @@ interface Props {
 }
 
 export function ToolsSidebar({ className }: Props) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    // Load sidebar collapsed state from localStorage
+    const saved = localStorage.getItem("sidebar-collapsed");
+    return saved === "true";
+  });
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [collapsedGroups, setCollapsedGroups] = useState<
+    Record<string, boolean>
+  >(() => {
+    // Load collapsed groups from localStorage on initial render
+    const saved = localStorage.getItem("sidebar-collapsed-groups");
+    return saved ? JSON.parse(saved) : {};
+  });
   const router = useRouterState();
   const currentPath = router.location.pathname;
+
+  const toggleGroup = (groupTitle: string) => {
+    setCollapsedGroups((prev) => {
+      const newState = {
+        ...prev,
+        [groupTitle]: !prev[groupTitle],
+      };
+      // Save to localStorage whenever state changes
+      localStorage.setItem(
+        "sidebar-collapsed-groups",
+        JSON.stringify(newState),
+      );
+      return newState;
+    });
+  };
 
   const SidebarContent = () => (
     <>
@@ -26,7 +59,11 @@ export function ToolsSidebar({ className }: Props) {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={() => {
+              const newState = !isCollapsed;
+              setIsCollapsed(newState);
+              localStorage.setItem("sidebar-collapsed", String(newState));
+            }}
             className="hidden lg:flex h-8 w-8 p-0"
           >
             {isCollapsed ? (
@@ -41,58 +78,76 @@ export function ToolsSidebar({ className }: Props) {
       {/* Navigation */}
       <nav className="flex-1 p-1 overflow-y-auto">
         {/* Tool Groups */}
-        {toolGroups.map((group, groupIndex) => (
-          <div key={group.groupTitle}>
-            {/* Group Title */}
-            {!isCollapsed && (
-              <h3 className="px-2 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                {group.groupTitle}
-              </h3>
-            )}
+        {toolGroups.map((group, groupIndex) => {
+          const isGroupCollapsed = collapsedGroups[group.groupTitle];
 
-            {/* Tools in Group */}
-            <div className="space-y-1 mb-3">
-              {group.tools.map((tool) => {
-                const Icon = tool.icon;
-                const isActive = currentPath === tool.path;
+          return (
+            <div key={group.groupTitle}>
+              {/* Group Title - Clickable to toggle */}
+              {!isCollapsed && (
+                <button
+                  onClick={() => toggleGroup(group.groupTitle)}
+                  className="w-full flex items-center justify-between px-2 mb-2 text-xs font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider transition-colors group"
+                >
+                  <span>{group.groupTitle}</span>
+                  {isGroupCollapsed ? (
+                    <ChevronRight className="h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+                  ) : (
+                    <ChevronDown className="h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+                  )}
+                </button>
+              )}
 
-                return (
-                  <Link key={tool.id} to={tool.path}>
-                    <Button
-                      variant={isActive ? "default" : "ghost"}
-                      className={cn(
-                        "w-full justify-start gap-3 group relative",
-                        isCollapsed && "justify-center px-2",
-                      )}
-                    >
-                      <Icon
+              {/* Tools in Group - Collapsible */}
+              <div
+                className={cn(
+                  "space-y-1 mb-3 transition-all duration-200 overflow-hidden",
+                  isGroupCollapsed && "max-h-0 mb-0 opacity-0",
+                  !isGroupCollapsed && "max-h-[1000px] opacity-100",
+                )}
+              >
+                {group.tools.map((tool) => {
+                  const Icon = tool.icon;
+                  const isActive = currentPath === tool.path;
+
+                  return (
+                    <Link key={tool.id} to={tool.path}>
+                      <Button
+                        variant={isActive ? "default" : "ghost"}
                         className={cn(
-                          "h-5 w-5 flex-shrink-0",
-                          isActive && "text-white",
+                          "w-full justify-start gap-3 group relative",
+                          isCollapsed && "justify-center px-2",
                         )}
-                      />
-                      {!isCollapsed && (
-                        <span className="font-medium truncate w-full">
-                          {tool.title}
-                        </span>
-                      )}
-                      {isCollapsed && (
-                        <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground text-sm rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50 shadow-md border border-border">
-                          {tool.title}
-                        </div>
-                      )}
-                    </Button>
-                  </Link>
-                );
-              })}
-            </div>
+                      >
+                        <Icon
+                          className={cn(
+                            "h-5 w-5 flex-shrink-0",
+                            isActive && "text-white",
+                          )}
+                        />
+                        {!isCollapsed && (
+                          <span className="font-medium truncate w-full">
+                            {tool.title}
+                          </span>
+                        )}
+                        {isCollapsed && (
+                          <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground text-sm rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50 shadow-md border border-border">
+                            {tool.title}
+                          </div>
+                        )}
+                      </Button>
+                    </Link>
+                  );
+                })}
+              </div>
 
-            {/* Horizontal Separator (except after last group) */}
-            {groupIndex < toolGroups.length - 1 && (
-              <div className="my-4 border-t border-border" />
-            )}
-          </div>
-        ))}
+              {/* Horizontal Separator (except after last group) */}
+              {groupIndex < toolGroups.length - 1 && (
+                <div className="my-4 border-t border-border" />
+              )}
+            </div>
+          );
+        })}
       </nav>
 
       {/* Footer */}

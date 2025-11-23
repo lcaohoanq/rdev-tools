@@ -1,41 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Button } from "~/shared/components/ui/button";
 import { Sun, Moon, Home, Menu, X, Search, Command } from "lucide-react";
 import { useTheme } from "../../../shared/components/ThemeProvider";
 import LanguageSelector from "~/shared/components/LanguageSelector";
-
-// Search data
-const searchableItems = [
-  {
-    id: "vscode",
-    title: "VS Code Editor",
-    path: "/tools/vscode",
-    category: "Editors",
-    description: "Browser-based code editor",
-  },
-  {
-    id: "terminal",
-    title: "Web Terminal",
-    path: "/tools/terminal",
-    category: "Development",
-    description: "Interactive terminal",
-  },
-  {
-    id: "tools",
-    title: "All Tools",
-    path: "/",
-    category: "Navigation",
-    description: "View all developer tools",
-  },
-];
+import { tools, categories } from "../data";
 
 export function ToolsNavbar() {
   const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState(searchableItems);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -43,18 +18,49 @@ export function ToolsNavbar() {
   // Check if current theme is light or dark
   const isLightTheme = theme === "light";
 
+  // Create searchable items from tools data + add home navigation
+  const searchableItems = useMemo(() => {
+    const toolItems = tools.map((tool) => ({
+      id: tool.id,
+      title: tool.title,
+      path: tool.path,
+      category: tool.category,
+      description: tool.description,
+      icon: tool.icon,
+    }));
+
+    // Add home/navigation item
+    return [
+      {
+        id: "home",
+        title: "All Tools",
+        path: "/",
+        category: "navigation",
+        description: "View all developer tools",
+        icon: Home,
+      },
+      ...toolItems,
+    ];
+  }, []);
+
+  const [searchResults, setSearchResults] = useState(searchableItems);
+
   // Handle search input
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     if (query.trim() === "") {
       setSearchResults(searchableItems);
     } else {
-      const filtered = searchableItems.filter(
-        (item) =>
+      const filtered = searchableItems.filter((item) => {
+        const categoryName =
+          categories.find((cat) => cat.id === item.category)?.name ||
+          item.category;
+        return (
           item.title.toLowerCase().includes(query.toLowerCase()) ||
           item.description.toLowerCase().includes(query.toLowerCase()) ||
-          item.category.toLowerCase().includes(query.toLowerCase()),
-      );
+          categoryName.toLowerCase().includes(query.toLowerCase())
+        );
+      });
       setSearchResults(filtered);
     }
   };
@@ -162,36 +168,35 @@ export function ToolsNavbar() {
                       </div>
                     ) : (
                       <div className="py-2">
-                        {searchResults.map((item) => (
-                          <button
-                            key={item.id}
-                            onClick={() => handleSearchItemClick(item.path)}
-                            className="w-full px-4 py-3 hover:bg-accent text-left transition-colors flex items-start space-x-3 group"
-                          >
-                            <div className="mt-1">
-                              {item.category === "Editors" && (
-                                <Search className="h-4 w-4 text-primary" />
-                              )}
-                              {item.category === "Development" && (
-                                <Command className="h-4 w-4 text-primary" />
-                              )}
-                              {item.category === "Navigation" && (
-                                <Home className="h-4 w-4 text-primary" />
-                              )}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="text-foreground font-medium group-hover:text-primary transition-colors">
-                                {item.title}
+                        {searchResults.map((item) => {
+                          const Icon = item.icon;
+                          const categoryName =
+                            categories.find((cat) => cat.id === item.category)
+                              ?.name || item.category;
+
+                          return (
+                            <button
+                              key={item.id}
+                              onClick={() => handleSearchItemClick(item.path)}
+                              className="w-full px-4 py-3 hover:bg-accent text-left transition-colors flex items-start space-x-3 group"
+                            >
+                              <div className="mt-1">
+                                <Icon className="h-4 w-4 text-primary" />
                               </div>
-                              <div className="text-xs text-muted-foreground truncate">
-                                {item.description}
+                              <div className="flex-1 min-w-0">
+                                <div className="text-foreground font-medium group-hover:text-primary transition-colors">
+                                  {item.title}
+                                </div>
+                                <div className="text-xs text-muted-foreground truncate">
+                                  {item.description}
+                                </div>
                               </div>
-                            </div>
-                            <div className="text-xs text-muted-foreground mt-1">
-                              {item.category}
-                            </div>
-                          </button>
-                        ))}
+                              <div className="text-xs text-muted-foreground mt-1">
+                                {categoryName}
+                              </div>
+                            </button>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -345,36 +350,35 @@ export function ToolsNavbar() {
                 </div>
               ) : (
                 <div className="py-2">
-                  {searchResults.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => handleSearchItemClick(item.path)}
-                      className="w-full px-4 py-4 hover:bg-accent text-left transition-colors flex items-start space-x-3 border-b border-border"
-                    >
-                      <div className="mt-1">
-                        {item.category === "Editors" && (
-                          <Search className="h-5 w-5 text-primary" />
-                        )}
-                        {item.category === "Development" && (
-                          <Command className="h-5 w-5 text-primary" />
-                        )}
-                        {item.category === "Navigation" && (
-                          <Home className="h-5 w-5 text-primary" />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-foreground font-medium mb-1">
-                          {item.title}
+                  {searchResults.map((item) => {
+                    const Icon = item.icon;
+                    const categoryName =
+                      categories.find((cat) => cat.id === item.category)
+                        ?.name || item.category;
+
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => handleSearchItemClick(item.path)}
+                        className="w-full px-4 py-4 hover:bg-accent text-left transition-colors flex items-start space-x-3 border-b border-border"
+                      >
+                        <div className="mt-1">
+                          <Icon className="h-5 w-5 text-primary" />
                         </div>
-                        <div className="text-sm text-muted-foreground">
-                          {item.description}
+                        <div className="flex-1 min-w-0">
+                          <div className="text-foreground font-medium mb-1">
+                            {item.title}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {item.description}
+                          </div>
                         </div>
-                      </div>
-                      <div className="text-xs text-muted-foreground mt-1 px-2 py-1 bg-muted rounded">
-                        {item.category}
-                      </div>
-                    </button>
-                  ))}
+                        <div className="text-xs text-muted-foreground mt-1 px-2 py-1 bg-muted rounded">
+                          {categoryName}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>
