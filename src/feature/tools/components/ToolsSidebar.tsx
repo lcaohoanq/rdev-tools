@@ -51,6 +51,7 @@ export function ToolsSidebar({ className }: Props) {
       <div className="p-4 border-b border-border mb-3">
         <div className="flex items-center justify-center">
           <h2 className="text-lg font-bold text-primary">DevTools</h2>
+          <div className="container-csemszepp"></div>
         </div>
       </div>
 

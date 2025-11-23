@@ -11,6 +11,7 @@ import {
   Command,
   PanelLeftClose,
   PanelLeft,
+  Info,
 } from "lucide-react";
 import { useTheme } from "../../../shared/components/ThemeProvider";
 import { useSidebar } from "../../../shared/contexts/SidebarContext";
@@ -257,10 +258,17 @@ export function ToolsNavbar() {
                 )}
               </Button>
 
-              {/* User Menu Placeholder */}
-              {/* <Button variant="outline" size="default">
-                Buy me a coffee {" \u2615"}
-              </Button> */}
+              {/* About */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  navigate({ to: "/about" });
+                }}
+                title={"About Developer Tools"}
+              >
+                <Info className="h-5 w-5" />
+              </Button>
 
               <button className="coffee-button">
                 <div className="svg-wrapper-1">
