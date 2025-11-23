@@ -1,5 +1,9 @@
-import React, { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
+import React, { useState } from "react";
+import { ToolsNavbar } from "~/feature/tools/components/ToolsNavbar";
+import { ToolsLayout } from "~/feature/tools/layouts/ToolsLayout";
+import { Button } from "~/shared/components/ui/button";
 import {
   Card,
   CardDescription,
@@ -7,87 +11,10 @@ import {
   CardHeader,
   CardTitle,
 } from "~/shared/components/ui/card";
-import { Button } from "~/shared/components/ui/button";
-import {
-  Code2,
-  Terminal,
-  ArrowRight,
-  FileCode,
-  Database,
-  Network,
-  Wrench,
-  Sparkles,
-} from "lucide-react";
-import { ToolsLayout } from "~/feature/tools/layouts/ToolsLayout";
-import { ToolsNavbar } from "~/feature/tools/components/ToolsNavbar";
-
-interface Tool {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ElementType;
-  path: string;
-  color: string;
-  category: string;
-  badge?: string;
-}
+import { categories, tools } from "../data";
 
 export function ToolsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-
-  const tools: Tool[] = [
-    {
-      id: "vscode",
-      title: "VS Code Editor",
-      description:
-        "A browser-based code editor powered by Monaco Editor. Write, edit, and experiment with code directly in your browser.",
-      icon: Code2,
-      path: "/tools/vscode",
-      color: "from-blue-500 to-cyan-500",
-      category: "editors",
-      badge: "Popular",
-    },
-    {
-      id: "terminal",
-      title: "Web Terminal",
-      description:
-        "A simulated terminal environment in your browser. Practice command-line skills and run basic shell commands.",
-      icon: Terminal,
-      path: "/tools/terminal",
-      color: "from-green-500 to-lime-500",
-      category: "development",
-      badge: "New",
-    },
-    // Add more tools here in the future
-  ];
-
-  const categories = [
-    { id: "all", name: "All Tools", icon: Sparkles, count: tools.length },
-    {
-      id: "editors",
-      name: "Editors",
-      icon: FileCode,
-      count: tools.filter((t) => t.category === "editors").length,
-    },
-    {
-      id: "development",
-      name: "Development",
-      icon: Wrench,
-      count: tools.filter((t) => t.category === "development").length,
-    },
-    {
-      id: "database",
-      name: "Database",
-      icon: Database,
-      count: tools.filter((t) => t.category === "database").length,
-    },
-    {
-      id: "network",
-      name: "Network",
-      icon: Network,
-      count: tools.filter((t) => t.category === "network").length,
-    },
-  ];
 
   const filteredTools =
     selectedCategory === "all"
@@ -130,7 +57,7 @@ export function ToolsPage() {
                       className={`text-xs px-2 py-0.5 rounded-full ${
                         selectedCategory === category.id
                           ? "bg-white/20"
-                          : "bg-gray-700"
+                          : "bg-gray-200"
                       }`}
                     >
                       {category.count}
@@ -200,21 +127,6 @@ export function ToolsPage() {
                 })}
               </div>
             )}
-          </div>
-
-          {/* Coming Soon Section */}
-          <div>
-            <Card className="border-2 border-dashed text-center p-8">
-              <CardHeader>
-                <CardTitle className="text-2xl">
-                  More Tools Coming Soon!
-                </CardTitle>
-                <CardDescription className="text-base mt-2">
-                  We're constantly adding new developer tools. Check back soon
-                  for updates!
-                </CardDescription>
-              </CardHeader>
-            </Card>
           </div>
         </div>
       </div>

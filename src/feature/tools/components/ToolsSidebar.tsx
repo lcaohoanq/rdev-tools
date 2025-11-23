@@ -1,109 +1,15 @@
-import React, { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
+import React, { useState } from "react";
 import { Button } from "~/shared/components/ui/button";
-import {
-  Code2,
-  Terminal as TerminalIcon,
-  Home,
-  Menu,
-  X,
-  ChevronLeft,
-  ChevronRight,
-  Database,
-  Network,
-  Settings,
-  FileJson,
-} from "lucide-react";
 import { cn } from "~/shared/utils/utils";
+import { toolGroups } from "../data";
 
-type Tool = {
-  id: string;
-  title: string;
-  icon: React.ElementType;
-  path: string;
-  description: string;
-};
-
-type ToolGroup = {
-  groupTitle: string;
-  tools: Tool[];
-};
-
-const toolGroups: ToolGroup[] = [
-  {
-    groupTitle: "Editors",
-    tools: [
-      {
-        id: "vscode",
-        title: "Code Editor",
-        icon: Code2,
-        path: "/tools/vscode",
-        description: "Browser-based Monaco Editor",
-      },
-      {
-        id: "json-editor",
-        title: "JSON Editor",
-        icon: FileJson,
-        path: "/tools/json-editor",
-        description: "Format and validate JSON",
-      },
-    ],
-  },
-  {
-    groupTitle: "Development",
-    tools: [
-      {
-        id: "terminal",
-        title: "Web Terminal",
-        icon: TerminalIcon,
-        path: "/tools/terminal",
-        description: "Interactive terminal environment",
-      },
-    ],
-  },
-  {
-    groupTitle: "Database",
-    tools: [
-      {
-        id: "sql-client",
-        title: "SQL Client",
-        icon: Database,
-        path: "/tools/sql-client",
-        description: "Query and manage databases",
-      },
-    ],
-  },
-  {
-    groupTitle: "Network",
-    tools: [
-      {
-        id: "api-tester",
-        title: "API Tester",
-        icon: Network,
-        path: "/tools/api-tester",
-        description: "Test REST APIs",
-      },
-    ],
-  },
-  {
-    groupTitle: "Utilities",
-    tools: [
-      {
-        id: "settings",
-        title: "Settings",
-        icon: Settings,
-        path: "/tools/settings",
-        description: "Configure preferences",
-      },
-    ],
-  },
-];
-
-interface ToolsSidebarProps {
+interface Props {
   className?: string;
 }
 
-export function ToolsSidebar({ className }: ToolsSidebarProps) {
+export function ToolsSidebar({ className }: Props) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const router = useRouterState();
