@@ -55,7 +55,7 @@ export function ToolsPage() {
                       className={`text-xs px-2 py-0.5 rounded-full ${
                         selectedCategory === category.id
                           ? "bg-white/20"
-                          : "bg-gray-200"
+                          : "bg-gray-300 text-black"
                       }`}
                     >
                       {category.count}
