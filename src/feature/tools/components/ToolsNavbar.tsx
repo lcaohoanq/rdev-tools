@@ -1,14 +1,26 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Button } from "~/shared/components/ui/button";
-import { Sun, Moon, Home, Menu, X, Search, Command } from "lucide-react";
+import {
+  Sun,
+  Moon,
+  Home,
+  Menu,
+  X,
+  Search,
+  Command,
+  PanelLeftClose,
+  PanelLeft,
+} from "lucide-react";
 import { useTheme } from "../../../shared/components/ThemeProvider";
+import { useSidebar } from "../../../shared/contexts/SidebarContext";
 import LanguageSelector from "~/shared/components/LanguageSelector";
 import { tools, categories } from "../data";
 import "../styles/tools.style.css";
 
 export function ToolsNavbar() {
   const { theme, toggleTheme } = useTheme();
+  const { isCollapsed, toggleSidebar } = useSidebar();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -114,11 +126,26 @@ export function ToolsNavbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border">
+      <nav className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo/Brand */}
             <div className="flex items-center space-x-4">
+              {/* Sidebar Toggle Button - Desktop Only */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleSidebar}
+                className="hidden lg:flex"
+                title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+              >
+                {isCollapsed ? (
+                  <PanelLeft className="h-5 w-5" />
+                ) : (
+                  <PanelLeftClose className="h-5 w-5" />
+                )}
+              </Button>
+
               <Link
                 to="/"
                 className="flex items-center space-x-2 hover:opacity-80 transition-opacity"

@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import { Button } from "~/shared/components/ui/button";
 import { cn } from "~/shared/utils/utils";
+import { useSidebar } from "../../../shared/contexts/SidebarContext";
 import { toolGroups } from "../data";
 
 interface Props {
@@ -17,11 +18,7 @@ interface Props {
 }
 
 export function ToolsSidebar({ className }: Props) {
-  const [isCollapsed, setIsCollapsed] = useState(() => {
-    // Load sidebar collapsed state from localStorage
-    const saved = localStorage.getItem("sidebar-collapsed");
-    return saved === "true";
-  });
+  const { isCollapsed } = useSidebar();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [collapsedGroups, setCollapsedGroups] = useState<
     Record<string, boolean>
@@ -52,26 +49,8 @@ export function ToolsSidebar({ className }: Props) {
     <>
       {/* Header */}
       <div className="p-4 border-b border-border mb-3">
-        <div className="flex items-center justify-between">
-          {!isCollapsed && (
-            <h2 className="text-lg font-bold text-primary">DevTools</h2>
-          )}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              const newState = !isCollapsed;
-              setIsCollapsed(newState);
-              localStorage.setItem("sidebar-collapsed", String(newState));
-            }}
-            className="hidden lg:flex h-8 w-8 p-0"
-          >
-            {isCollapsed ? (
-              <ChevronRight className="h-4 w-4" />
-            ) : (
-              <ChevronLeft className="h-4 w-4" />
-            )}
-          </Button>
+        <div className="flex items-center justify-center">
+          <h2 className="text-lg font-bold text-primary">DevTools</h2>
         </div>
       </div>
 
@@ -84,19 +63,17 @@ export function ToolsSidebar({ className }: Props) {
           return (
             <div key={group.groupTitle}>
               {/* Group Title - Clickable to toggle */}
-              {!isCollapsed && (
-                <button
-                  onClick={() => toggleGroup(group.groupTitle)}
-                  className="w-full flex items-center justify-between px-2 mb-2 text-xs font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider transition-colors group"
-                >
-                  <span>{group.groupTitle}</span>
-                  {isGroupCollapsed ? (
-                    <ChevronRight className="h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity" />
-                  ) : (
-                    <ChevronDown className="h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity" />
-                  )}
-                </button>
-              )}
+              <button
+                onClick={() => toggleGroup(group.groupTitle)}
+                className="w-full flex items-center justify-between px-2 mb-2 text-xs font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider transition-colors group"
+              >
+                <span>{group.groupTitle}</span>
+                {isGroupCollapsed ? (
+                  <ChevronRight className="h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+                ) : (
+                  <ChevronDown className="h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+                )}
+              </button>
 
               {/* Tools in Group - Collapsible */}
               <div
@@ -114,10 +91,7 @@ export function ToolsSidebar({ className }: Props) {
                     <Link key={tool.id} to={tool.path}>
                       <Button
                         variant={isActive ? "default" : "ghost"}
-                        className={cn(
-                          "w-full justify-start gap-3 group relative",
-                          isCollapsed && "justify-center px-2",
-                        )}
+                        className="w-full justify-start gap-3 group relative"
                       >
                         <Icon
                           className={cn(
@@ -125,16 +99,9 @@ export function ToolsSidebar({ className }: Props) {
                             isActive && "text-white",
                           )}
                         />
-                        {!isCollapsed && (
-                          <span className="font-medium truncate w-full">
-                            {tool.title}
-                          </span>
-                        )}
-                        {isCollapsed && (
-                          <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground text-sm rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50 shadow-md border border-border">
-                            {tool.title}
-                          </div>
-                        )}
+                        <span className="font-medium truncate w-full">
+                          {tool.title}
+                        </span>
                       </Button>
                     </Link>
                   );
@@ -152,12 +119,10 @@ export function ToolsSidebar({ className }: Props) {
 
       {/* Footer */}
       <div className="p-4 border-t border-border">
-        {!isCollapsed && (
-          <div className="text-xs text-muted-foreground text-center">
-            <p>Developer Tools v1.0</p>
-            <p className="mt-1">@2025 lcaohoanq</p>
-          </div>
-        )}
+        <div className="text-xs text-muted-foreground text-center">
+          <p>Developer Tools v1.0</p>
+          <p className="mt-1">@2025 lcaohoanq</p>
+        </div>
       </div>
     </>
   );
@@ -198,15 +163,16 @@ export function ToolsSidebar({ className }: Props) {
       </aside>
 
       {/* Sidebar - Desktop */}
-      <aside
-        className={cn(
-          "hidden lg:flex flex-col h-screen bg-background border-r border-border sticky top-0 transition-all duration-300",
-          isCollapsed ? "w-16" : "w-64",
-          className,
-        )}
-      >
-        <SidebarContent />
-      </aside>
+      {!isCollapsed && (
+        <aside
+          className={cn(
+            "hidden lg:flex flex-col h-screen bg-background border-r border-border sticky top-0 transition-all duration-300 w-64",
+            className,
+          )}
+        >
+          <SidebarContent />
+        </aside>
+      )}
     </>
   );
 }
