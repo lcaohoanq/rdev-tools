@@ -11,16 +11,24 @@ function RouteComponent() {
   return (
     <ToolsLayout>
       <ToolsNavbar />
-      <div className="min-h-screen bg-background p-4 sm:p-8">
+      <div className="min-h-screen bg-background p-8 sm:p-8">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
             About Developer Tools
           </h1>
 
           <p className="text-muted-foreground text-base sm:text-lg mb-6">
-            This platform is built with ❤ by <strong>lcaohoanq</strong>, aiming
-            to bring together a set of practical and time-saving tools for
-            developers and anyone working with technology. If you find it
+            This platform is built with ❤ by{" "}
+            <strong
+              className="cursor-pointer hover:underline text-primary"
+              onClick={() => {
+                window.open("https://lcaohoanq.vercel.app", "_blank");
+              }}
+            >
+              lcaohoanq
+            </strong>
+            , aiming to bring together a set of practical and time-saving tools
+            for developers and anyone working with technology. If you find it
             helpful, feel free to share it with others who might benefit from it
             — and don’t forget to bookmark it for quick access!
           </p>

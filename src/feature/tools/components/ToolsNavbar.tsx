@@ -12,6 +12,8 @@ import {
   PanelLeftClose,
   PanelLeft,
   Info,
+  Github,
+  Linkedin,
 } from "lucide-react";
 import { useTheme } from "../../../shared/components/ThemeProvider";
 import { useSidebar } from "../../../shared/contexts/SidebarContext";
@@ -239,6 +241,36 @@ export function ToolsNavbar() {
 
             {/* Desktop Actions */}
             <div className="hidden sm:flex items-center space-x-2">
+              {/* Github */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  window.open(
+                    "https://github.com/lcaohoanq/rdev-tools",
+                    "_blank",
+                  );
+                }}
+                title={"Github Repository"}
+              >
+                <Github className="h-5 w-5" />
+              </Button>
+
+              {/* Linkedin */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  window.open(
+                    "https://www.linkedin.com/in/lcaohoanq/",
+                    "_blank",
+                  );
+                }}
+                title={"Author's Linkedin "}
+              >
+                <Linkedin className="h-5 w-5" />
+              </Button>
+
               {/* Language Selector */}
               <LanguageSelector variant="navbar" />
 
