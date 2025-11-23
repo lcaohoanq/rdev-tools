@@ -1,19 +1,17 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
 import React, { useState } from "react";
 import { ToolsNavbar } from "~/feature/tools/components/ToolsNavbar";
 import { ToolsLayout } from "~/feature/tools/layouts/ToolsLayout";
-import { Button } from "~/shared/components/ui/button";
 import {
   Card,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/shared/components/ui/card";
 import { categories, tools } from "../data";
 
 export function ToolsPage() {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const filteredTools =
@@ -86,7 +84,10 @@ export function ToolsPage() {
                   return (
                     <Card
                       key={tool.id}
-                      className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary/50 overflow-hidden relative"
+                      className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary/50 overflow-hidden relative hover:cursor-pointer"
+                      onClick={() => {
+                        navigate({ to: tool.path });
+                      }}
                     >
                       {/* Badge */}
                       {tool.badge && (
@@ -96,9 +97,6 @@ export function ToolsPage() {
                           </span>
                         </div>
                       )}
-
-                      {/* Gradient Header */}
-                      <div className={`h-2 bg-gradient-to-r ${tool.color}`} />
 
                       <CardHeader>
                         <div
@@ -113,15 +111,6 @@ export function ToolsPage() {
                           {tool.description}
                         </CardDescription>
                       </CardHeader>
-
-                      <CardFooter>
-                        <Link to={tool.path} className="w-full">
-                          <Button className="w-full transition-colors">
-                            Launch Tool
-                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                          </Button>
-                        </Link>
-                      </CardFooter>
                     </Card>
                   );
                 })}
