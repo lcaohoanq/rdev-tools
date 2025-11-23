@@ -6,6 +6,27 @@ import { Play, Download, Copy, Check, Eye, EyeOff } from "lucide-react";
 import { ToolsLayout } from "~/feature/tools/layouts/ToolsLayout";
 import { ToolsNavbar } from "~/feature/tools/components/ToolsNavbar";
 
+const supportLanguages = [
+  { value: "javascript", label: "JavaScript" },
+  { value: "typescript", label: "TypeScript" },
+  { value: "python", label: "Python" },
+  { value: "java", label: "Java" },
+  { value: "kotlin", label: "Kotlin" },
+  { value: "html", label: "HTML" },
+  { value: "css", label: "CSS" },
+  { value: "dockerfile", label: "Dockerfile" },
+  { value: "txt", label: "Plain Text" },
+  { value: "yaml", label: "YAML" },
+  { value: "json", label: "JSON" },
+  { value: "markdown", label: "Markdown" },
+];
+
+const themes = [
+  { value: "vs-dark", label: "Dark" },
+  { value: "vs-light", label: "Light" },
+  { value: "hc-black", label: "High Contrast" },
+];
+
 export default function VSCodeEditorPage() {
   const [code, setCode] = useState(`// Welcome to the Browser Code Editor!
 // Powered by Monaco Editor (the same editor that powers VS Code)
@@ -76,27 +97,6 @@ console.log(greet("Developer"));
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const languages = [
-    { value: "javascript", label: "JavaScript" },
-    { value: "typescript", label: "TypeScript" },
-    { value: "python", label: "Python" },
-    { value: "java", label: "Java" },
-    { value: "kotlin", label: "Kotlin" },
-    { value: "html", label: "HTML" },
-    { value: "css", label: "CSS" },
-    { value: "dockerfile", label: "Dockerfile" },
-    { value: "txt", label: "Plain Text" },
-    { value: "yaml", label: "YAML" },
-    { value: "json", label: "JSON" },
-    { value: "markdown", label: "Markdown" },
-  ];
-
-  const themes = [
-    { value: "vs-dark", label: "Dark" },
-    { value: "vs-light", label: "Light" },
-    { value: "hc-black", label: "High Contrast" },
-  ];
-
   return (
     <ToolsLayout>
       <ToolsNavbar />
@@ -113,7 +113,7 @@ console.log(greet("Developer"));
                 onChange={(e) => setLanguage(e.target.value)}
                 className="px-3 py-1.5 rounded-lg bg-muted border border-border text-sm hover:border-primary transition-colors"
               >
-                {languages.map((lang) => (
+                {supportLanguages.map((lang) => (
                   <option key={lang.value} value={lang.value}>
                     {lang.label}
                   </option>
