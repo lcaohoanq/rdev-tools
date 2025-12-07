@@ -1,30 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import React, { useEffect, useRef } from "react";
-import { WebContainer } from "@webcontainer/api";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import "xterm/css/xterm.css";
 import { ToolsLayout } from "~/feature/tools/layouts/ToolsLayout";
 import { ToolsNavbar } from "~/feature/tools/components/ToolsNavbar";
-
-// Global WebContainer instance - only boot once
-let webContainerInstance: WebContainer | null = null;
-let bootPromise: Promise<WebContainer> | null = null;
-
-const getWebContainer = async (): Promise<WebContainer> => {
-  if (webContainerInstance) {
-    return webContainerInstance;
-  }
-
-  if (!bootPromise) {
-    bootPromise = WebContainer.boot().then((instance) => {
-      webContainerInstance = instance;
-      return instance;
-    });
-  }
-
-  return bootPromise;
-};
+import { getWebContainer } from "~/shared/utils/webcontainer";
 
 const WebContainerTerminal = () => {
   const terminalRef = useRef<HTMLDivElement>(null);

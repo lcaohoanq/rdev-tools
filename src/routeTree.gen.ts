@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutIndexRouteImport } from './routes/about/index'
 import { Route as ToolsVscodeIndexRouteImport } from './routes/tools/vscode/index'
 import { Route as ToolsTerminalIndexRouteImport } from './routes/tools/terminal/index'
+import { Route as ToolsGhosttyTerminalIndexRouteImport } from './routes/tools/ghostty-terminal/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,16 +35,24 @@ const ToolsTerminalIndexRoute = ToolsTerminalIndexRouteImport.update({
   path: '/tools/terminal/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsGhosttyTerminalIndexRoute =
+  ToolsGhosttyTerminalIndexRouteImport.update({
+    id: '/tools/ghostty-terminal/',
+    path: '/tools/ghostty-terminal/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutIndexRoute
+  '/tools/ghostty-terminal': typeof ToolsGhosttyTerminalIndexRoute
   '/tools/terminal': typeof ToolsTerminalIndexRoute
   '/tools/vscode': typeof ToolsVscodeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutIndexRoute
+  '/tools/ghostty-terminal': typeof ToolsGhosttyTerminalIndexRoute
   '/tools/terminal': typeof ToolsTerminalIndexRoute
   '/tools/vscode': typeof ToolsVscodeIndexRoute
 }
@@ -51,20 +60,38 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about/': typeof AboutIndexRoute
+  '/tools/ghostty-terminal/': typeof ToolsGhosttyTerminalIndexRoute
   '/tools/terminal/': typeof ToolsTerminalIndexRoute
   '/tools/vscode/': typeof ToolsVscodeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/tools/terminal' | '/tools/vscode'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/tools/ghostty-terminal'
+    | '/tools/terminal'
+    | '/tools/vscode'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/tools/terminal' | '/tools/vscode'
-  id: '__root__' | '/' | '/about/' | '/tools/terminal/' | '/tools/vscode/'
+  to:
+    | '/'
+    | '/about'
+    | '/tools/ghostty-terminal'
+    | '/tools/terminal'
+    | '/tools/vscode'
+  id:
+    | '__root__'
+    | '/'
+    | '/about/'
+    | '/tools/ghostty-terminal/'
+    | '/tools/terminal/'
+    | '/tools/vscode/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutIndexRoute: typeof AboutIndexRoute
+  ToolsGhosttyTerminalIndexRoute: typeof ToolsGhosttyTerminalIndexRoute
   ToolsTerminalIndexRoute: typeof ToolsTerminalIndexRoute
   ToolsVscodeIndexRoute: typeof ToolsVscodeIndexRoute
 }
@@ -99,12 +126,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsTerminalIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/ghostty-terminal/': {
+      id: '/tools/ghostty-terminal/'
+      path: '/tools/ghostty-terminal'
+      fullPath: '/tools/ghostty-terminal'
+      preLoaderRoute: typeof ToolsGhosttyTerminalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutIndexRoute: AboutIndexRoute,
+  ToolsGhosttyTerminalIndexRoute: ToolsGhosttyTerminalIndexRoute,
   ToolsTerminalIndexRoute: ToolsTerminalIndexRoute,
   ToolsVscodeIndexRoute: ToolsVscodeIndexRoute,
 }

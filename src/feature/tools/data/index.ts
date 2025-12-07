@@ -93,6 +93,13 @@ export const toolGroups: ToolGroup[] = [
         description: "Interactive terminal environment",
       },
       {
+        id: "ghostty",
+        title: "Ghostty Terminal",
+        icon: Terminal,
+        path: "/tools/ghostty-terminal",
+        description: "Embedded Ghostty Web Terminal",
+      },
+      {
         id: "regex-tester",
         title: "Regex Tester",
         icon: FileCode,
@@ -351,6 +358,17 @@ export const tools: Tool[] = [
       "A simulated terminal environment in your browser. Practice command-line skills and run basic shell commands.",
     icon: Terminal,
     path: "/tools/terminal",
+    color: "from-green-500 to-lime-500",
+    category: "development",
+    badge: "New",
+  },
+  {
+    id: "ghostty-terminal",
+    title: "Ghostty Terminal",
+    description:
+      "Embedded Ghostty Web Terminal for a full-featured terminal experience directly in your browser.",
+    icon: Terminal,
+    path: "/tools/ghostty-terminal",
     color: "from-green-500 to-lime-500",
     category: "development",
     badge: "New",
