@@ -235,6 +235,13 @@ export const toolGroups: ToolGroup[] = [
     groupTitle: "Images & Videos",
     tools: [
       {
+        id: "quick-take-unsplash-image",
+        title: "Quick Take Unsplash Image",
+        icon: Image,
+        path: "/tools/quick-take-unsplash-image",
+        description: "",
+      },
+      {
         id: "image-compressor",
         title: "Image Compressor",
         icon: Image,
@@ -523,6 +530,16 @@ export const tools: Tool[] = [
   },
 
   // Images & Videos
+  {
+    id: "quick-take-unsplash-image",
+    title: "Quick Take Unsplash Image",
+    description: "Shorten the URL of unsplash images for easy sharing.",
+    icon: Image,
+    path: "/tools/quick-take-unsplash-image",
+    color: "from-pink-500 to-purple-500",
+    category: "images-videos",
+  },
+
   {
     id: "image-compressor",
     title: "Image Compressor",

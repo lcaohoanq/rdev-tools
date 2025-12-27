@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutIndexRouteImport } from './routes/about/index'
 import { Route as ToolsVscodeIndexRouteImport } from './routes/tools/vscode/index'
 import { Route as ToolsTerminalIndexRouteImport } from './routes/tools/terminal/index'
+import { Route as ToolsQuickTakeUnsplashImageIndexRouteImport } from './routes/tools/quick-take-unsplash-image/index'
 import { Route as ToolsGhosttyTerminalIndexRouteImport } from './routes/tools/ghostty-terminal/index'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,12 @@ const ToolsTerminalIndexRoute = ToolsTerminalIndexRouteImport.update({
   path: '/tools/terminal/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsQuickTakeUnsplashImageIndexRoute =
+  ToolsQuickTakeUnsplashImageIndexRouteImport.update({
+    id: '/tools/quick-take-unsplash-image/',
+    path: '/tools/quick-take-unsplash-image/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ToolsGhosttyTerminalIndexRoute =
   ToolsGhosttyTerminalIndexRouteImport.update({
     id: '/tools/ghostty-terminal/',
@@ -46,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutIndexRoute
   '/tools/ghostty-terminal': typeof ToolsGhosttyTerminalIndexRoute
+  '/tools/quick-take-unsplash-image': typeof ToolsQuickTakeUnsplashImageIndexRoute
   '/tools/terminal': typeof ToolsTerminalIndexRoute
   '/tools/vscode': typeof ToolsVscodeIndexRoute
 }
@@ -53,6 +61,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutIndexRoute
   '/tools/ghostty-terminal': typeof ToolsGhosttyTerminalIndexRoute
+  '/tools/quick-take-unsplash-image': typeof ToolsQuickTakeUnsplashImageIndexRoute
   '/tools/terminal': typeof ToolsTerminalIndexRoute
   '/tools/vscode': typeof ToolsVscodeIndexRoute
 }
@@ -61,6 +70,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about/': typeof AboutIndexRoute
   '/tools/ghostty-terminal/': typeof ToolsGhosttyTerminalIndexRoute
+  '/tools/quick-take-unsplash-image/': typeof ToolsQuickTakeUnsplashImageIndexRoute
   '/tools/terminal/': typeof ToolsTerminalIndexRoute
   '/tools/vscode/': typeof ToolsVscodeIndexRoute
 }
@@ -70,6 +80,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/tools/ghostty-terminal'
+    | '/tools/quick-take-unsplash-image'
     | '/tools/terminal'
     | '/tools/vscode'
   fileRoutesByTo: FileRoutesByTo
@@ -77,6 +88,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/tools/ghostty-terminal'
+    | '/tools/quick-take-unsplash-image'
     | '/tools/terminal'
     | '/tools/vscode'
   id:
@@ -84,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about/'
     | '/tools/ghostty-terminal/'
+    | '/tools/quick-take-unsplash-image/'
     | '/tools/terminal/'
     | '/tools/vscode/'
   fileRoutesById: FileRoutesById
@@ -92,6 +105,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutIndexRoute: typeof AboutIndexRoute
   ToolsGhosttyTerminalIndexRoute: typeof ToolsGhosttyTerminalIndexRoute
+  ToolsQuickTakeUnsplashImageIndexRoute: typeof ToolsQuickTakeUnsplashImageIndexRoute
   ToolsTerminalIndexRoute: typeof ToolsTerminalIndexRoute
   ToolsVscodeIndexRoute: typeof ToolsVscodeIndexRoute
 }
@@ -126,6 +140,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsTerminalIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/quick-take-unsplash-image/': {
+      id: '/tools/quick-take-unsplash-image/'
+      path: '/tools/quick-take-unsplash-image'
+      fullPath: '/tools/quick-take-unsplash-image'
+      preLoaderRoute: typeof ToolsQuickTakeUnsplashImageIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/ghostty-terminal/': {
       id: '/tools/ghostty-terminal/'
       path: '/tools/ghostty-terminal'
@@ -140,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutIndexRoute: AboutIndexRoute,
   ToolsGhosttyTerminalIndexRoute: ToolsGhosttyTerminalIndexRoute,
+  ToolsQuickTakeUnsplashImageIndexRoute: ToolsQuickTakeUnsplashImageIndexRoute,
   ToolsTerminalIndexRoute: ToolsTerminalIndexRoute,
   ToolsVscodeIndexRoute: ToolsVscodeIndexRoute,
 }
