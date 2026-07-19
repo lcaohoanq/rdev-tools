@@ -18,6 +18,7 @@ import {
   Calculator,
   Ruler,
   BarChart3,
+  KeyRound,
 } from "lucide-react";
 
 // Base tool interface with all properties
@@ -156,6 +157,13 @@ export const toolGroups: ToolGroup[] = [
   {
     groupTitle: "Crypto",
     tools: [
+      {
+        id: "password-generator",
+        title: "Password Generator",
+        icon: KeyRound,
+        path: "/tools/password-generator",
+        description: "Create secure random passwords",
+      },
       {
         id: "hash-generator",
         title: "Hash Generator",
@@ -441,6 +449,17 @@ export const tools: Tool[] = [
   },
 
   // Crypto
+  {
+    id: "password-generator",
+    title: "Password Generator",
+    description:
+      "Instantly generate secure, random passwords with configurable character sets.",
+    icon: KeyRound,
+    path: "/tools/password-generator",
+    color: "from-emerald-500 to-green-600",
+    category: "crypto",
+    badge: "Popular",
+  },
   {
     id: "hash-generator",
     title: "Hash Generator",

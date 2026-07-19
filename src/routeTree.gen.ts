@@ -11,10 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutIndexRouteImport } from './routes/about/index'
-import { Route as ToolsVscodeIndexRouteImport } from './routes/tools/vscode/index'
-import { Route as ToolsTerminalIndexRouteImport } from './routes/tools/terminal/index'
-import { Route as ToolsQuickTakeUnsplashImageIndexRouteImport } from './routes/tools/quick-take-unsplash-image/index'
 import { Route as ToolsGhosttyTerminalIndexRouteImport } from './routes/tools/ghostty-terminal/index'
+import { Route as ToolsPasswordGeneratorIndexRouteImport } from './routes/tools/password-generator/index'
+import { Route as ToolsQuickTakeUnsplashImageIndexRouteImport } from './routes/tools/quick-take-unsplash-image/index'
+import { Route as ToolsTerminalIndexRouteImport } from './routes/tools/terminal/index'
+import { Route as ToolsVscodeIndexRouteImport } from './routes/tools/vscode/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -26,41 +27,49 @@ const AboutIndexRoute = AboutIndexRouteImport.update({
   path: '/about/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ToolsVscodeIndexRoute = ToolsVscodeIndexRouteImport.update({
-  id: '/tools/vscode/',
-  path: '/tools/vscode/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ToolsTerminalIndexRoute = ToolsTerminalIndexRouteImport.update({
-  id: '/tools/terminal/',
-  path: '/tools/terminal/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ToolsQuickTakeUnsplashImageIndexRoute =
-  ToolsQuickTakeUnsplashImageIndexRouteImport.update({
-    id: '/tools/quick-take-unsplash-image/',
-    path: '/tools/quick-take-unsplash-image/',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ToolsGhosttyTerminalIndexRoute =
   ToolsGhosttyTerminalIndexRouteImport.update({
     id: '/tools/ghostty-terminal/',
     path: '/tools/ghostty-terminal/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ToolsPasswordGeneratorIndexRoute =
+  ToolsPasswordGeneratorIndexRouteImport.update({
+    id: '/tools/password-generator/',
+    path: '/tools/password-generator/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ToolsQuickTakeUnsplashImageIndexRoute =
+  ToolsQuickTakeUnsplashImageIndexRouteImport.update({
+    id: '/tools/quick-take-unsplash-image/',
+    path: '/tools/quick-take-unsplash-image/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ToolsTerminalIndexRoute = ToolsTerminalIndexRouteImport.update({
+  id: '/tools/terminal/',
+  path: '/tools/terminal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsVscodeIndexRoute = ToolsVscodeIndexRouteImport.update({
+  id: '/tools/vscode/',
+  path: '/tools/vscode/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutIndexRoute
-  '/tools/ghostty-terminal': typeof ToolsGhosttyTerminalIndexRoute
-  '/tools/quick-take-unsplash-image': typeof ToolsQuickTakeUnsplashImageIndexRoute
-  '/tools/terminal': typeof ToolsTerminalIndexRoute
-  '/tools/vscode': typeof ToolsVscodeIndexRoute
+  '/about/': typeof AboutIndexRoute
+  '/tools/ghostty-terminal/': typeof ToolsGhosttyTerminalIndexRoute
+  '/tools/password-generator/': typeof ToolsPasswordGeneratorIndexRoute
+  '/tools/quick-take-unsplash-image/': typeof ToolsQuickTakeUnsplashImageIndexRoute
+  '/tools/terminal/': typeof ToolsTerminalIndexRoute
+  '/tools/vscode/': typeof ToolsVscodeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutIndexRoute
   '/tools/ghostty-terminal': typeof ToolsGhosttyTerminalIndexRoute
+  '/tools/password-generator': typeof ToolsPasswordGeneratorIndexRoute
   '/tools/quick-take-unsplash-image': typeof ToolsQuickTakeUnsplashImageIndexRoute
   '/tools/terminal': typeof ToolsTerminalIndexRoute
   '/tools/vscode': typeof ToolsVscodeIndexRoute
@@ -70,6 +79,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about/': typeof AboutIndexRoute
   '/tools/ghostty-terminal/': typeof ToolsGhosttyTerminalIndexRoute
+  '/tools/password-generator/': typeof ToolsPasswordGeneratorIndexRoute
   '/tools/quick-take-unsplash-image/': typeof ToolsQuickTakeUnsplashImageIndexRoute
   '/tools/terminal/': typeof ToolsTerminalIndexRoute
   '/tools/vscode/': typeof ToolsVscodeIndexRoute
@@ -78,16 +88,18 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
-    | '/tools/ghostty-terminal'
-    | '/tools/quick-take-unsplash-image'
-    | '/tools/terminal'
-    | '/tools/vscode'
+    | '/about/'
+    | '/tools/ghostty-terminal/'
+    | '/tools/password-generator/'
+    | '/tools/quick-take-unsplash-image/'
+    | '/tools/terminal/'
+    | '/tools/vscode/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/tools/ghostty-terminal'
+    | '/tools/password-generator'
     | '/tools/quick-take-unsplash-image'
     | '/tools/terminal'
     | '/tools/vscode'
@@ -96,6 +108,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about/'
     | '/tools/ghostty-terminal/'
+    | '/tools/password-generator/'
     | '/tools/quick-take-unsplash-image/'
     | '/tools/terminal/'
     | '/tools/vscode/'
@@ -105,6 +118,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutIndexRoute: typeof AboutIndexRoute
   ToolsGhosttyTerminalIndexRoute: typeof ToolsGhosttyTerminalIndexRoute
+  ToolsPasswordGeneratorIndexRoute: typeof ToolsPasswordGeneratorIndexRoute
   ToolsQuickTakeUnsplashImageIndexRoute: typeof ToolsQuickTakeUnsplashImageIndexRoute
   ToolsTerminalIndexRoute: typeof ToolsTerminalIndexRoute
   ToolsVscodeIndexRoute: typeof ToolsVscodeIndexRoute
@@ -122,36 +136,43 @@ declare module '@tanstack/react-router' {
     '/about/': {
       id: '/about/'
       path: '/about'
-      fullPath: '/about'
+      fullPath: '/about/'
       preLoaderRoute: typeof AboutIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tools/vscode/': {
-      id: '/tools/vscode/'
-      path: '/tools/vscode'
-      fullPath: '/tools/vscode'
-      preLoaderRoute: typeof ToolsVscodeIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tools/terminal/': {
-      id: '/tools/terminal/'
-      path: '/tools/terminal'
-      fullPath: '/tools/terminal'
-      preLoaderRoute: typeof ToolsTerminalIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tools/quick-take-unsplash-image/': {
-      id: '/tools/quick-take-unsplash-image/'
-      path: '/tools/quick-take-unsplash-image'
-      fullPath: '/tools/quick-take-unsplash-image'
-      preLoaderRoute: typeof ToolsQuickTakeUnsplashImageIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/ghostty-terminal/': {
       id: '/tools/ghostty-terminal/'
       path: '/tools/ghostty-terminal'
-      fullPath: '/tools/ghostty-terminal'
+      fullPath: '/tools/ghostty-terminal/'
       preLoaderRoute: typeof ToolsGhosttyTerminalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/password-generator/': {
+      id: '/tools/password-generator/'
+      path: '/tools/password-generator'
+      fullPath: '/tools/password-generator/'
+      preLoaderRoute: typeof ToolsPasswordGeneratorIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/quick-take-unsplash-image/': {
+      id: '/tools/quick-take-unsplash-image/'
+      path: '/tools/quick-take-unsplash-image'
+      fullPath: '/tools/quick-take-unsplash-image/'
+      preLoaderRoute: typeof ToolsQuickTakeUnsplashImageIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/terminal/': {
+      id: '/tools/terminal/'
+      path: '/tools/terminal'
+      fullPath: '/tools/terminal/'
+      preLoaderRoute: typeof ToolsTerminalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/vscode/': {
+      id: '/tools/vscode/'
+      path: '/tools/vscode'
+      fullPath: '/tools/vscode/'
+      preLoaderRoute: typeof ToolsVscodeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -161,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutIndexRoute: AboutIndexRoute,
   ToolsGhosttyTerminalIndexRoute: ToolsGhosttyTerminalIndexRoute,
+  ToolsPasswordGeneratorIndexRoute: ToolsPasswordGeneratorIndexRoute,
   ToolsQuickTakeUnsplashImageIndexRoute: ToolsQuickTakeUnsplashImageIndexRoute,
   ToolsTerminalIndexRoute: ToolsTerminalIndexRoute,
   ToolsVscodeIndexRoute: ToolsVscodeIndexRoute,

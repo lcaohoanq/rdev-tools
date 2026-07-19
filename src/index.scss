@@ -51,6 +51,35 @@
   }
 }
 
+.password-range {
+  background: linear-gradient(
+    to right,
+    #070707 0%,
+    #070707 var(--range-progress),
+    #a5afa5 var(--range-progress),
+    #a5afa5 100%
+  );
+}
+
+.password-range::-webkit-slider-thumb {
+  width: 32px;
+  height: 32px;
+  appearance: none;
+  border: 1px solid #d0d0d0;
+  border-radius: 9999px;
+  background: white;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+}
+
+.password-range::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #d0d0d0;
+  border-radius: 9999px;
+  background: white;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+}
+
 @layer base {
   * {
     @apply border-border;
